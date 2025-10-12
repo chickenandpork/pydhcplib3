@@ -7,7 +7,7 @@
 # import type_strlist
 
 import sys
-import dhcp_packet
+from pydhcplib3 import dhcp_packet
 from optparse import OptionParser
 
 

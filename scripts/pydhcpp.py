@@ -17,18 +17,16 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from pydhcplib3 import dhcp_constants
-from pydhcplib3 import dhcp_packet
 from pydhcplib3 import dhcp_network
 from pydhcplib3 import dhcp_file_io
-from pydhcplib3 import type_hwmac
-from pydhcplib3 import type_ipv4
-from pydhcplib3 import type_strlist
 from pydhcplib3 import interface
 
 import sys
 
 from optparse import OptionParser
 
+# this file was scripts/pydhcp but there was also a pydhcp.py file.  Unsure why the same names,
+# this one seemed to be a pip/processor, so I've renamed scripts/pydhcp -> scripts/pydhcpp.py
 
 parser = OptionParser()
 
@@ -82,12 +80,12 @@ def main():
     port_destination = False
     ip_destination = False
 
-    if options.version == True:
+    if options.version:
         print("PyDhcpLib version : ", dhcp_constants.PyDhcpLibVersion)
         sys.exit(0)
 
     # process input command line
-    if options.input != False:
+    if not options.input:
         options.input = process_inline_options(options.input)
         listener = process_input(options.input, options.count)
     else:
@@ -97,7 +95,7 @@ def main():
         listener = dhcp_file_io.DhcpStdIn()
 
     # process output command line
-    if options.output != False:
+    if not options.output:
         options.output = process_inline_options(options.output)
         emitter = process_output(options.output, options.count)
         ip_destination = options.output[2]
@@ -143,12 +141,11 @@ def main():
 def process_input(_input, _count):
     if not _input:
         print_error("process_input_error")
-        return false
+        return False
 
     option_up = False
     option_binary = False
     listener = False
-    file_in = False
     if not _count:
         _count = 0
 
@@ -206,12 +203,10 @@ def process_input(_input, _count):
 def process_output(_output, _count):
     if not _output:
         print_error("process_output_error")
-        return false
+        return False
 
     option_up = False
     option_binary = False
-    listener = False
-    file_in = False
     if not _count:
         _count = 0
 
@@ -345,11 +340,15 @@ def process_inline_options(definition):
             input_tmp = input_name.split(":")
             input_name = input_tmp[0]
             input_port = input_tmp[1]
-        except:
+        except Exception as e:
             if input_type == "device":
-                print_error("Error : wrong name field. Example : eth0:68")
+                print_error(
+                    f"Error (device): ({e}) wrong name field. Example : eth0:68"
+                )
             if input_type == "address":
-                print_error("Error : wrong name field. Example : 192.168.8.5:68")
+                print_error(
+                    "Error (address): ({e}) wrong name field. Example : 192.168.8.5:68"
+                )
             return False
     elif input_type == "file":
         input_name = input_split[2]

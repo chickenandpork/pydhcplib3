@@ -32,7 +32,7 @@ setup(
     scripts=["scripts/pydhcp"],
     data_files=[
         ("share/man/man8", en8_manpages),
-        #            ("share/man/fr/man8",fr8_manpages),
+        ("share/man/fr/man8", fr8_manpages),
         ("share/man/fr/man3", fr3_manpages),
         ("share/man/man3", en3_manpages),
     ],

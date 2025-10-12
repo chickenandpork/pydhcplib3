@@ -1,0 +1,30 @@
+load("@rules_python//python:defs.bzl", "py_binary", "py_test")
+load("@pypi//:requirements.bzl", "requirement")
+# load("@rules_python//python:pip.bzl", "compile_pip_requirements")
+
+py_binary(
+    name="pydhcpp",
+    srcs=["pydhcpp.py"],
+    deps=[
+        "//pydhcplib3:pydhcplib3",
+        # requirement("termcolor"),
+    ],
+)
+
+py_binary(
+    name="pydhcp",
+    srcs=["pydhcp.py"],
+    deps=[
+        "//pydhcplib3:pydhcplib3",
+        # requirement("termcolor"),
+    ],
+)
+
+# py_test(
+#    name = "main_test",
+#    srcs = ["main_test.py"],
+#    deps = [
+#        ":main"
+#    ],
+#    imports = ["."],
+# )
