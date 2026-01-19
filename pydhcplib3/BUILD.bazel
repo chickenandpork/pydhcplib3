@@ -1,0 +1,50 @@
+load("@rules_python//python:defs.bzl", "py_test")
+load("@rules_python//python:packaging.bzl", "py_package", "py_wheel", "py_wheel_dist")
+
+py_library(
+    name = "pydhcplib3",
+    srcs = [
+        "dhcp_basic_packet.py",
+        "dhcp_constants.py",
+        "dhcp_file_io.py",
+        "dhcp_network.py",
+        "dhcp_packet.py",
+        "__init__.py",
+        "interface.py",
+        "type_hw_addr.py",
+        "type_hwmac.py",
+        "type_ipv4.py",
+        "type_strlist.py",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [],
+)
+
+py_package(
+    name = "pydhcplib3_pkg",
+    #packages = ["examples.wheel"],
+    deps = [":pydhcplib3"],
+)
+
+py_wheel(
+    name = "pydhcplib3_wheel",
+    distribution = "pydhcplib3",
+    python_tag = "py3",
+    version = "0.7.1",
+    deps = [":pydhcplib3_pkg"],
+)
+
+py_wheel_dist(
+    name = "pydhcplib3_wheel_dist",
+    out = "dist",
+    wheel = ":pydhcplib3_wheel",
+)
+
+#py_test(
+#    name = "pydhcplib3_test",
+#    srcs = ["pydhcplib3_test.py"],
+#    deps = [
+#        ":pydhcplib3"
+#    ],
+#    imports = ["."],
+#)

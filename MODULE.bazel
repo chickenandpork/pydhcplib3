@@ -1,0 +1,26 @@
+module(
+    name = "pydhcplib3",
+    version = "0.7.1",
+)
+
+VER_PYTHON = "3.11"
+
+bazel_dep(name = "rules_python", version = "1.6.3")
+bazel_dep(name = "buildifier_prebuilt", version = "8.2.0.2", dev_dependency = True)
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "pypi",
+    python_version = VER_PYTHON,
+    requirements_lock = "//:requirements_lock.txt",
+)
+use_repo(pip, "pypi")
+
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(
+    ignore_root_user_error = True,
+    is_default = True,
+    python_version = VER_PYTHON,
+)
+
+use_repo(python, "python_3_11")
