@@ -19,7 +19,6 @@ import sys
 import socket
 import select
 from . import dhcp_packet
-import IN
 
 
 class DhcpNetwork:
@@ -73,7 +72,7 @@ class DhcpNetwork:
     def BindToDevice(self):
         try:
             self.dhcp_socket.setsockopt(
-                socket.SOL_SOCKET, IN.SO_BINDTODEVICE, self.listen_address + "\0"
+                socket.SOL_SOCKET, socket.SO_BINDTODEVICE, self.listen_address + "\0"
             )
         except socket.error as msg:
             sys.stderr.write(
@@ -226,7 +225,7 @@ class DhcpClientOld(DhcpNetwork):
     def BindToDevice(self):
         try:
             self.dhcp_socket.setsockopt(
-                socket.SOL_SOCKET, IN.SO_BINDTODEVICE, self.listen_address + "\0"
+                socket.SOL_SOCKET, socket.SO_BINDTODEVICE, self.listen_address + "\0"
             )
         except socket.error as msg:
             sys.stderr.write(

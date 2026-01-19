@@ -161,11 +161,9 @@ class DhcpBasicPacket:
 
         packet = self.packet_data[:240] + options
         packet.append(255)  # add end option
-        pack_fmt = str(len(packet)) + "c"
+        pack_fmt = str(len(packet)) + "s"
 
-        packet = list(map(chr, packet))
-
-        return pack(pack_fmt, *packet)
+        return pack(pack_fmt, bytes(packet))
 
     # Insert packet in the object
     def DecodePacket(self, data, debug=False):
