@@ -3,10 +3,13 @@
 Pydhcplib is a python library to read/write and encode/decode dhcp
 packet on network.
 
-##Installation
+This code has been upgraded to python3, hence the slight name-change to add `3`, but the opaque
+compressed manpages are not updated, nor is distribution to pypi sorted.
 
-Simply run `python setup.py install`. Python modules will be
-installed in /usr/lib/python3.X/site-packages/pydhcplib3/.
+## Installation
+
+Simply run `python setup.py install`. Python modules will be installed in
+/usr/lib/python3.X/site-packages/pydhcplib3/
 
 
 ## How to use pydhcplib3
