@@ -1,0 +1,28 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "helpers:pinGitHubActionDigests",
+    "helpers:pinGitHubActionDigestsToSemver"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "packageRules": [
+    {
+      "enabled": true,
+      "matchManagers": [
+        "bazel",
+        "bazel-module",
+      ]
+    },
+    {
+      "automerge": true,
+      "matchUpdateTypes": [
+        "digest",
+        "minor",
+        "patch"
+      ]
+    }
+  ]
+}
