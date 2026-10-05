@@ -1,0 +1,42 @@
+---
+name: Build
+env:
+  # Building on mac? Don't ever update homebrew: a huge cycles-consumer even if you ARE using it
+  HOMEBREW_NO_AUTO_UPDATE: 1
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches-ignore:
+      - master  # master handled in release.yaml
+
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-24.04, ubuntu-latest]  # macos-latest
+    steps:
+      -
+        name: Date-Based Cache key
+        # get a key showing the current week (ISO: yyyyWww)
+        id: week
+        run: echo "::set-output name=iso::$(date +'bazel-%YW%U')"
+      -
+        uses: bazel-contrib/setup-bazel@c5acdfb288317d0b5c0bbd7a396a3dc868bb0f86 # 0.19.0
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ steps.week.outputs.iso }}
+          repository-cache: true
+      -
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        # action runners have bazelisk: - uses: bazelbuild/setup-bazelisk@v2
+        # https://github.com/bazelbuild/bazel/issues/11062
+      #-
+      #  run: bazel test //... --test_output=errors --test_summary=detailed
+      -
+        run: bazel build //...
+      -
+        run: bazel shutdown
